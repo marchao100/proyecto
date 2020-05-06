@@ -139,6 +139,34 @@ public class ServicioConsulta {
 	}
 	
 	
+	
+	
+	public List<Gasolinera> consultaUnaGasolinera(String id) throws URISyntaxException {
+		
+		URI myURL = new URI("https://services1.arcgis.com/nCKYwcSONQTkPA4K/arcgis/rest/services/Gasolinerasv2/FeatureServer/0/query?where=OBJECTID=%27"+id+"%27&outFields=*&outSR=4326&f=json");
+		RequestEntity<GasolineraJson> request = new RequestEntity<GasolineraJson>(HttpMethod.GET, myURL);
+		
+		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>();        
+		//Add the Jackson Message converter
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));    
+		messageConverters.add(converter);	
+				
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setMessageConverters(messageConverters);
+		ResponseEntity<GasolineraJson> response;
+		response = 	restTemplate.exchange(request,GasolineraJson.class);
+		
+		
+		return response.getBody().getFeatures();
+		
+	}
+	
+	
+	
+	
+	
+	
  	private List<GasolineraAux> filtraCombustibles(List<Gasolinera> gasolineras, String combustible){
 		
 		List<GasolineraAux> listaGasolinerasAux = new ArrayList<GasolineraAux>();

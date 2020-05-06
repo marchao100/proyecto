@@ -9,8 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.marcos.eChofa.beans.Gasolinera;
 import com.marcos.eChofa.beans.GasolineraAux;
 import com.marcos.eChofa.servicios.Autenticacion;
 import com.marcos.eChofa.servicios.ObtieneDatosUserService;
@@ -77,6 +79,24 @@ public class GasolineraRutas {
 			//No hay ninguna gasolinera con lo que el usuario quiere
 			model.addObject("flag",false);
 			model.addObject("usuarioAux", new Usuario());
+		}
+		
+		return model;
+	}
+	
+	
+	@GetMapping("/verGasolinera/{id}")
+	public ModelAndView detalleGasolinera(@PathVariable String id) throws URISyntaxException {
+		
+		ModelAndView model = new ModelAndView();
+		model.setViewName("detalle");
+		List<Gasolinera> gasolineras = servicioConsulta.consultaUnaGasolinera(id);
+		System.out.println(gasolineras);
+		if(!gasolineras.isEmpty()) {
+			model.addObject("gasolinera", gasolineras.get(0));
+		}else {
+			//Error: No se ha encontrado esa gasolinera
+			System.out.println("Error");
 		}
 		
 		return model;

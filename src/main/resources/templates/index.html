@@ -54,14 +54,16 @@
                     <th scope="col">Localidad</th>
                     <th scope="col">Horario</th>
                     <th th:text="${combustible}" scope="col">Precio Carburante</th>
+                    <th scope="col">--</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="gasolinera: ${gasolineras}">
                     <th th:text="${gasolinera.rotulo}"></th>
-                    <td th:text="${gasolinera.localidad}">Mark</td>
-                    <td th:text="${gasolinera.horario}">Otto</td>
-                    <td th:text="${gasolinera.precio}">@mdo</td>
+                    <td th:text="${gasolinera.localidad}"></td>
+                    <td th:text="${gasolinera.horario}"></td>
+                    <td th:text="${gasolinera.precio}"></td>
+                    <td><a type="button" class="btn btn-info btn-sm" th:href="@{/verGasolinera/{id}(id=${gasolinera.objectId})}">Ver mas</a></td>
                 </tr>
             </tbody>
         </table>
